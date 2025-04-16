@@ -50,6 +50,8 @@ npx sequelize db:migrate
    
 node app.js
 
+#### Obs:Os testes de rotas foram feitos utilizando o Insomnia
+
 # Funcionalidades
 
  Cadastro de Usuários
