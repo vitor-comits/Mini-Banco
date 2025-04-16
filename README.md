@@ -64,23 +64,21 @@ node app.js
 
 # Exemplos de Endpoints
 
-Método	        Rota	                          Descrição
+| Método	         | Rota: http://localhost:3333	                         | Descrição
+| :--------------| :-----------------------------                          |  :-----------------
+| POST	           | /usuarios     	                                       | Criar novo usuário
+| GET           	 |  /usuarios	                                           |  Listar usuários
+| POST	           |  /instituicoes 	                                     |  Criar nova instituição
+| GET	             |  /instituicoes	                                       |   Listar instituições
+| POST             |	/contas	                                             |  Criar nova conta bancária
+| GET	             |  /contas/:id/saldo                               	   | Consultar saldo atual da conta
+| POST	           | /transacoes	                                         |    Registrar nova transação
+| GET	             | /transacoes/extrato	                                 |  Relatório de extrato consolidado
 
-POST	           /usuarios     	                Criar novo usuário
-
-GET           	/usuarios	                      Listar usuários
-
-POST	          /instituicoes 	                Criar nova instituição
-
-GET	            /instituicoes	                  Listar instituições
-
-POST           	/contas	                        Criar nova conta bancária
-
-GET	             /contas/:id/saldo             	Consultar saldo atual da conta
-
-POST	           /transacoes	                  Registrar nova transação
-
-GET	            /transacoes/extrato	            Relatório de extrato consolidado
 
 # Observações:
 O projeto usa Sequelize ORM com migrations versionadas.
+
+# Autor:
+
+Vitor Daniel Uhlmann
