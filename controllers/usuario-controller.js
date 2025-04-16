@@ -1,4 +1,5 @@
 const { Usuario } = require('../models');
+const { Op } = require('sequelize');
 
 module.exports = {
   // Criar um novo usuário
@@ -10,6 +11,26 @@ module.exports = {
       if (!nome || !email || !cpf) {
         return res.status(400).json({ error: 'Nome, email e CPF são obrigatórios.' });
       }
+        //Validação de email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)){
+        return res.status(400).json({ error: 'Email inválido.'});
+      }
+
+        // Verificar se já existe um usuário com mesmo email ou cpf
+        const usuarioExistente = await Usuario.findOne({
+          where: {
+            [Op.or]: [
+              { email: email },
+              { cpf: cpf}
+            ]
+          }
+        });
+  
+        if (usuarioExistente) {
+          return res.status(400).json({ error: 'Já existe um usuário com este email ou CPF.' });
+        }
+     
 
       const usuario = await Usuario.create({ nome, email, cpf });
       return res.status(201).json(usuario);

@@ -1,4 +1,4 @@
-const { Conta } = require('../models');
+const { Conta, Usuario } = require('../models');
 
 module.exports = {
   // Criar conta
@@ -10,6 +10,29 @@ module.exports = {
         return res.status(400).json({ error: 'Todos os campos obrigatórios devem ser preenchidos.' });
       }
 
+       // Buscar CPF do usuário pelo ID
+       const usuario = await Usuario.findByPk(usuario_id);
+       if (!usuario) {
+         return res.status(404).json({ error: 'Usuário não encontrado.' });
+       }
+ 
+       const { cpf } = usuario;
+ 
+       // Verificar se já existe uma conta com o mesmo CPF e mesma instituição
+       const contaExistente = await Conta.findOne({
+         where: {
+           instituicao_id,
+           usuario_id
+         }
+       });
+ 
+       if (contaExistente) {
+         return res.status(409).json({
+           error: 'Usuário já possui uma conta nesta instituição.'
+         });
+       }
+
+      
       const conta = await Conta.create({ usuario_id, instituicao_id, agencia, numero_conta, saldo });
       return res.status(201).json(conta);
     } catch (error) {

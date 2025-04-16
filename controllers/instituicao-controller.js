@@ -1,4 +1,5 @@
 const { Instituicao } = require('../models');
+const { Op } = require('sequelize');
 
 module.exports = {
   // Criar nova instituição
@@ -9,6 +10,20 @@ module.exports = {
       if (!nome || !codigo_banco) {
         return res.status(400).json({ error: 'Nome e código do banco são obrigatórios.' });
       }
+
+      // Verificação de duplicidade
+     const existente = await Instituicao.findOne({
+      where: {
+      [Op.or]: [
+      { nome },
+      { codigo_banco }
+    ]
+  }
+});
+
+if (existente) {
+  return res.status(400).json({ error: 'Já existe uma instituição com este nome ou código do banco.' });
+}      
 
       const instituicao = await Instituicao.create({ nome, codigo_banco });
       return res.status(201).json(instituicao);
